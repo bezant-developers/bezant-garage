@@ -9,7 +9,7 @@ docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-chan
 
 ### Modify user
 ```bash
-docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["ModifyUser", "0", "philip", "Suwon", "010-1234-5678"]}'
+docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["modifyUser", "0", "philip", "Suwon", "010-1234-5678"]}'
 ```
 
 ### Get user

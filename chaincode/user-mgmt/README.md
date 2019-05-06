@@ -9,7 +9,7 @@ docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-chan
 
 ### Modify user
 ```bash
-docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["addUser", "0", "philip", "Suwon", "010-1234-5678"]}'
+docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["ModifyUser", "0", "philip", "Suwon", "010-1234-5678"]}'
 ```
 
 ### Get user
@@ -22,9 +22,9 @@ docker exec cli peer chaincode query -C bezant-channel -n user-mgmt --peerAddres
 docker exec cli peer chaincode query -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["getUserHistory", "0"]}'
 ```
 
-### Get all user
+### Get users
 ```bash
-docker exec cli peer chaincode query -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["getAllUser"]}'
+docker exec cli peer chaincode query -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["getUsers"]}'
 ```
 
 ### Remove user

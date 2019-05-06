@@ -45,27 +45,18 @@ public class UserMgmt extends ChaincodeBase {
         try {
             String func = stub.getFunction();
 
-            if ("addUser".equals(func)) {
-                return addUser(stub);
-            } else if ("modifyUser".equals(func)) {
-                return modifyUser(stub);
-            } else if ("removeUser".equals(func)) {
-                return removeUser(stub);
-            } else if ("getUserHistory".equals(func)) {
-                return getUserHistory(stub);
-            } else if ("getUser".equals(func)) {
-                return getUser(stub);
-            } else if ("getAllUser".equals(func)) {
-                return getAllUser(stub);
-            } else if ("addLoginHistory".equals(func)) {
-                return addLoginHistory(stub);
-            } else if ("getLoginHistory".equals(func)) {
-                return getLoginHistory(stub);
-            } else if ("getAllLoginHistory".equals(func)) {
-                return getAllLoginHistory(stub);
+            switch (func) {
+                case "addUser": return addUser(stub);
+                case "modifyUser": return modifyUser(stub);
+                case "removeUser": return removeUser(stub);
+                case "getUserHistory": return getUserHistory(stub);
+                case "getUser": return getUser(stub);
+                case "getUsers": return getUsers(stub);
+                case "addLoginHistory": return addLoginHistory(stub);
+                case "getLoginHistory": return getLoginHistory(stub);
+                case "getLoginHistories": return getLoginHistories(stub);
+                default: return newErrorResponse(String.format(NOT_FOUND_FUNCTION, func));
             }
-
-            return newErrorResponse("No function name :" + func + " found");
         } catch (Exception e) {
             return newErrorResponse(e.getMessage());
         }
@@ -123,7 +114,6 @@ public class UserMgmt extends ChaincodeBase {
         List<String> args = checkAndGetParams(stub, 1);
 
         CompositeKey compositeKey = stub.createCompositeKey(CommonConstant.PREFIX_COMPOSITE_KEY_USER, args.get(0));
-
         QueryResultsIterator<KeyModification> keyModifications = stub.getHistoryForKey(compositeKey.toString());
 
         List<UserHistory> userHistories = Lists.newArrayList();
@@ -150,17 +140,16 @@ public class UserMgmt extends ChaincodeBase {
         return newSuccessResponse(userStr.getBytes());
     }
 
-    private Response getAllUser(ChaincodeStub stub) {
+    private Response getUsers(ChaincodeStub stub) {
         checkAndGetParams(stub, 0);
 
         CompositeKey compositeKey = stub.createCompositeKey(CommonConstant.PREFIX_COMPOSITE_KEY_USER);
-
-        QueryResultsIterator<KeyValue> keyValues = stub.getStateByPartialCompositeKey(compositeKey.toString());
+        QueryResultsIterator<KeyValue> kvs = stub.getStateByPartialCompositeKey(compositeKey.toString());
 
         List<User> users = Lists.newArrayList();
 
-        for (KeyValue keyValue : keyValues) {
-            User user = convertJsonStringToObject(keyValue.getStringValue(), User.class);
+        for (KeyValue kv : kvs) {
+            User user = convertJsonStringToObject(kv.getStringValue(), User.class);
             users.add(user);
         }
 
@@ -179,7 +168,7 @@ public class UserMgmt extends ChaincodeBase {
         return newSuccessResponse();
     }
 
-    private Response getAllLoginHistory(ChaincodeStub stub) {
+    private Response getLoginHistories(ChaincodeStub stub) {
         return newSuccessResponse();
     }
 }

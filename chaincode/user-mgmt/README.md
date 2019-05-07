@@ -32,6 +32,13 @@ docker exec cli peer chaincode query -C bezant-channel -n user-mgmt --peerAddres
 docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n user-mgmt --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["removeUser", "0"]}'
 ```
 
+### Instantiate
+```bash
+docker exec cli peer chaincode install -n user-mgmt -v 1.0 -l java -p /opt/gopath/src/user-mgmt
+docker exec cli2 peer chaincode install -n user-mgmt -v 1.0 -l java -p /opt/gopath/src/user-mgmt                                                                                            
+docker exec cli peer chaincode instantiate -o orderer.example.com:7050 -C bezant-channel -n user-mgmt -v 1.0 -c '{"Args":["init"]}'               
+```
+
 ### Upgrade
 ```bash
 docker exec cli peer chaincode install -n user-mgmt -v 1.1 -l java -p /opt/gopath/src/user-mgmt

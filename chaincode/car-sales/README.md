@@ -32,6 +32,13 @@ docker exec cli peer chaincode query -C bezant-channel -n car-sales --peerAddres
 docker exec cli peer chaincode query -o orderer.example.com:7050 -C bezant-channel -n car-sales --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["getCars"]}'
 ```
 
+### Instantiate
+```bash
+docker exec cli peer chaincode install -n car-sales -v 1.0 -l java -p /opt/gopath/src/car-sales
+docker exec cli2 peer chaincode install -n car-sales -v 1.0 -l java -p /opt/gopath/src/car-sales                                                                                            
+docker exec cli peer chaincode instantiate -o orderer.example.com:7050 -C bezant-channel -n car-sales -v 1.0 -c '{"Args":["init"]}'               
+```
+
 ### Upgrade
 ```bash
 docker exec cli peer chaincode install -n car-sales -v 1.1 -l java -p /opt/gopath/src/car-sales
